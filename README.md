@@ -1,25 +1,32 @@
 ## Description
-Product management is a field that is with long-form and strategic content. But when I went looking for real-time news through the lens of product management, I couldn't find anything. It looked like this could be an area of opportunity for someone to fill a need. There was a second problem, I wanted to be a consumer of this material, not a creator. So I decided to see if AI could use crowd-sourced content to create a newsletter that I would want to read every day. This experiment with AI has become [The PM A.M. Newsletter](https://pmnews.today). Each day this code delivers an email to my inbox with the latest news that product managers should care about.
+Product management is a field that is with long-form and strategic content. But when I went looking for real-time news through the lens of product management, I couldn't find anything. It looked like this could be an area of opportunity for someone to fill a need. There was a second problem, I wanted to be a consumer of this material, not a creator. So I decided to see if AI could use crowd-sourced content to create a newsletter that I would want to read every day. This experiment with AI has become [The PM A.M. Newsletter](https://pmnews.today). Each day this code delivers an email to my inbox with the latest news that product managers should care about in a Hackernews/Reddit aesthetic.
+
 ![PM AM Newsletter](https://github.com/brayden-s-haws/pm_am_newsletter/assets/58832489/7e099a89-0ff5-4986-aad8-1f235e3f76df)
 
 While I have fine-tuned it to deliver product management content, the prompts and sources could easily be tweaked to cover any topic or domain. Hopefully others take this code and create newsletters about whatever matters most to them.
 
 ## How It Works
 The newsletter is built by grabbing content from various sources, filtering it and summarizing it with GPT, and then ultimately sending to subscribers using SendGrid. This diagram shows the various content flows in detail:
+
 ![CleanShot Freeform-2023-07-30](https://github.com/brayden-s-haws/pm_am_newsletter/assets/58832489/13f4a133-34af-4f94-80ba-ebde0f02977b)
 
 ## Features
 This describes some of the key features of how the code works to ultimately generate an email.
 
-- **GPT Filtering**: .
-- **GPT Deduping**: .
-- **GPT Summaries**: .
-- **Email Inbox Scraping**: .
-- **Scraping (API and Web-based)**: .
+- **Scraping (API and Web-based)**: We start with a set of sources that provide high signal on technology news. They either use reader votes to surface the best stories or use human editors. For each of these sources we grab a large set of URLs. Each URL is first checked against its robots.txt file to confirm they allow scraping, those that don't are thrown out.
+- **GPT Deduping**: We start off by scraping a ton of sources. This often leads to multiple sources for a single story. GPT reads all the URLs and uses the keyword in them to determine which links contain unique content. In cases where there is more than 1 url for a source, GPT uses its knowledge of [domain authority](https://moz.com/learn/seo/domain-authority) to select the best source. This avoids the need to use a more expensive domain authority tool.
+- **GPT Filtering**: The text of the de-duplicated URLs is sent to the GPT API and it determines if a story is/isn't relevant to product management. It returns a keyword that allows for filter out of non-product management stories.
+- **GPT Summaries**: For all the relevant stories the text is again sent to GPT and it produces a summary of the article. These summaries are sent to GPT once more to generate an introduction for the email.
+- **Email Inbox Scraping**: In the case of most existing newsletters, they do not allow scraping on their website. So I subscribed to them using a dedicated Gmail inbox. I then get the links and text needed from the inbox rather than the website.
 
 ## Files
 This describes the role of each file in creating the newsletter.
-- **email_generator**: .
+- **email_generator**: This is the file that controls the run of the email send. It pulls in the content, formats in in HTML, and sends it through the SendGrid API. This is also where you set the timing of the send. The python version is included here, but I ultimately used Flask for this so that I could have both the daily send and another endpoint to trigger manually when needed.
+- **current_news_scrapers**: This file is the start of the daily news flow. Here we designate the sources we want to scrape with their specific scraping code. This file also contains a variable that allows you to adjust how many urls are pulled from each source.
+- **scrape_articles**: This files checks each URL against its robots.txt file. For those that allow scraping it creates a dictionary that contains the url, the article title, and the text of the article. Unlike the current_news_scrapers where we only need to account for a few webpage layouts, there can be literally 100's of page layouts. Newspaper3k was a huge help here as I did not need to try an write scrapers for each possible source.
+- **summary_generator**: This takes the dictionary created in scrape_articles and passed the contents through GPT several times. The output is a summary for each article relevant to product management. Additionally, the summaries are combined with a prompt and theme that is unique to the day of the week, to create an intro for the email (assuring the the intro will almost never be similar).
+- **get_bcc_contacts**: Sendgrid is overall easy to use but it has a few quirks. In the case of the email send API it expects you to provide it with a list of emails. If you are using SendGrid to collect you audience emails you would expect you could reference them directly in the send, but it does not allow for this. So this file reaches out to SendGrid and grabs the emails in your audience list, they are then used at the time of send.
+- **long_form_scraper**:
 
 ## Setup
 I deployed this on a GCP server. But it could be deployed on almost any machine running python and flask. I wrote it all in plain python but switched to Flask for creating endpoints for testing and the recurring run. This ended up using more packages than imagined at the outset, they can be installed using this command:
