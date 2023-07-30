@@ -21,16 +21,28 @@ This describes some of the key features of how the code works to ultimately gene
 
 ## Files
 This describes the role of each file in creating the newsletter.
-- **email_generator**: This is the file that controls the run of the email send. It pulls in the content, formats in in HTML, and sends it through the SendGrid API. This is also where you set the timing of the send. The python version is included here, but I ultimately used Flask for this so that I could have both the daily send and another endpoint to trigger manually when needed.
+- **email_generator**: This is the file that controls the run of the email send. It pulls in the content, formats in in HTML, and sends it through the [SendGrid API](https://docs.sendgrid.com/for-developers/sending-email/api-getting-started). This is also where you set the timing of the send. The python version is included here, but I ultimately used Flask for this so that I could have both the daily send and another endpoint to trigger manually when needed.
 - **current_news_scrapers**: This file is the start of the daily news flow. Here we designate the sources we want to scrape with their specific scraping code. This file also contains a variable that allows you to adjust how many urls are pulled from each source.
 - **scrape_articles**: This files checks each URL against its robots.txt file. For those that allow scraping it creates a dictionary that contains the url, the article title, and the text of the article. Unlike the current_news_scrapers where we only need to account for a few webpage layouts, there can be literally 100's of page layouts. Newspaper3k was a huge help here as I did not need to try an write scrapers for each possible source.
 - **summary_generator**: This takes the dictionary created in scrape_articles and passed the contents through GPT several times. The output is a summary for each article relevant to product management. Additionally, the summaries are combined with a prompt and theme that is unique to the day of the week, to create an intro for the email (assuring the the intro will almost never be similar).
 - **get_bcc_contacts**: Sendgrid is overall easy to use but it has a few quirks. In the case of the email send API it expects you to provide it with a list of emails. If you are using SendGrid to collect you audience emails you would expect you could reference them directly in the send, but it does not allow for this. So this file reaches out to SendGrid and grabs the emails in your audience list, they are then used at the time of send.
-- **long_form_scraper**:
+- **long_form_scraper**: This file grabs content that was sent to a Gmail inbox. It allows you to specify which senders you would like to pull content from. You will need to setup a [Gmail Project](https://developers.google.com/gmail/api/quickstart/python) if you want to use this functionality.
+- **product_hunt_scraper**: This file scrapes the top products from the front page of Product Hunt. The various elements are not stored in an easy to access manner, so it also recombines them after they are pulled.
+- **reddit_scraper**: This file grabs the top discussions from a specific subreddit, in our case r/productmanagement. You will need a [Reddit API Account](https://www.reddit.com/dev/api/) if you want to use this functionality
+Note: each file that grabs content contains a variable that allows you to set the window of time for which to scrape content. By default they are all set to the last 24 hours.
 
 ## Setup
-I deployed this on a GCP server. But it could be deployed on almost any machine running python and flask. I wrote it all in plain python but switched to Flask for creating endpoints for testing and the recurring run. This ended up using more packages than imagined at the outset, they can be installed using this command:
-  <pre><code>pip install flask openai pytz google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client bs4 newspaper sendgrid </code></pre>
+I deployed this on a GCP server. But it could be deployed on almost any machine running python and flask. I wrote it all in plain python but switched to Flask for creating endpoints for testing and the recurring run. Needed packages can be installed using this command:
+  <pre><code>pip install flask openai pytz google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client bs4 newspaper sendgrid praw </code></pre>
+
+  Key Packages/Tools:
+  - [OpenAI](): Used for accessing gpt-3-turbo
+  - [Newspaper3k](): Used for parsing and scraping content from webpages
+  - [Beautiful Soup](): Used for parsing and scraping content from webpages
+  - [SendGrid](): Used for sending emails and managing audience
+  - [Gmail API]():
+  - [Reddit API]():
+  - [Carrd](): 
 
 ## Roadmap
 - Generalize all scrapers into a single class to make adding new sources easier
