@@ -1,7 +1,9 @@
 ## Description
-Product management is a field that is with long-form and strategic content. But when I went looking for real-time news through the lens of product management, I couldn't find anything. It looked like this could be an area of opportunity for someone to fill a need. There was a second problem, I wanted to be a consumer of this material, not a creator. So I decided to see if AI could use crowd-sourced content to create a newsletter that I would want to read every day. This experiment with AI has become [The PM A.M. Newsletter](https://pmnews.today). Each day this code delivers an email to my inbox with the latest news that product managers should care about in a Hackernews/Reddit aesthetic.
+Product management is a field that is rife with long-form and strategic content. But when I went looking for real-time news through the lens of product management, I couldn't find anything. It looked like this could be an area of opportunity for someone to fill a need. But there was a second problem, I wanted to be a consumer of this material, not a creator. So I decided to see if AI could use crowd-sourced content to create a newsletter that I would want to read every day. This experiment with AI has become [The PM A.M. Newsletter](https://pmnews.today). Each day this code delivers an email to my inbox with the latest news that product managers should care about in a Hackernews/Reddit aesthetic.
 
 ![PM AM Newsletter](https://github.com/brayden-s-haws/pm_am_newsletter/assets/58832489/7e099a89-0ff5-4986-aad8-1f235e3f76df)
+
+If you are a product manager or are interested in product, you should [subscribe](https://pmnews.today).
 
 While I have fine-tuned it to deliver product management content, the prompts and sources could easily be tweaked to cover any topic or domain. Hopefully others take this code and create newsletters about whatever matters most to them.
 
@@ -32,26 +34,27 @@ This describes the role of each file in creating the newsletter.
 Note: each file that grabs content contains a variable that allows you to set the window of time for which to scrape content. By default they are all set to the last 24 hours.
 
 ## Setup
-I deployed this on a GCP server. But it could be deployed on almost any machine running python and flask. I wrote it all in plain python but switched to Flask for creating endpoints for testing and the recurring run. Needed packages can be installed using this command:
+The compute demands for this are almost nothing since it its just stringing together APIs. I deployed this on a free Flask server. But it could be deployed on almost any machine running python and Flask. I wrote it all in plain python but switched to Flask for creating endpoints for testing and the recurring run. Needed packages can be installed using this command:
   <pre><code>pip install flask openai pytz google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client bs4 newspaper sendgrid praw </code></pre>
 
   Key Packages/Tools:
-  - [OpenAI](): Used for accessing gpt-3-turbo
-  - [Newspaper3k](): Used for parsing and scraping content from webpages
-  - [Beautiful Soup](): Used for parsing and scraping content from webpages
-  - [SendGrid](): Used for sending emails and managing audience
-  - [Gmail API]():
-  - [Reddit API]():
-  - [Carrd](): 
+  - [OpenAI](https://platform.openai.com/overview): Used for accessing gpt-3-turbo
+  - [Newspaper3k](https://pypi.org/project/newspaper3k/): Used for parsing and scraping content from webpages
+  - [Beautiful Soup](https://beautiful-soup-4.readthedocs.io/en/latest/): Used for parsing and scraping content from webpages
+  - [SendGrid](https://docs.sendgrid.com/for-developers/sending-email/api-getting-started): Used for sending emails and managing audience
+  - [Gmail API](https://developers.google.com/gmail/api/quickstart/python): Used for capturing and scraping newsletter content
+  - [Reddit API](https://www.reddit.com/dev/api/)(praw):Used to scrape content from Reddit
+  - [Carrd](https://carrd.co): Hosts the newsletter sign up page
 
 ## Roadmap
 - Generalize all scrapers into a single class to make adding new sources easier
 - Add longform content to daily sends (waiting to see if this content makes sense/is in demand)
+- Implement fine tuning to increase the quality of both the articles included and the article summaries
+- Store outputs of the newsletter and feed into GPT to see if it can spot upcoming trends in product management
 
 ## Acknowledgements/Thanks
-- Ryan
-- Kasey
-- Todd
+- Huge thanks to my wife Kasey! She did a ton to help with this, weighing in on design and being my first tester. She always supports me, no matter what weird thing I am currently chasing.
+- As always I owe [Ryan Jenson](https://www.linkedin.com/in/ryanwjenson/)big time. He helped with design and pointed me in the right direction on content. He also gave me a crash course on SEO and domain authority.
 
 ## License
 
