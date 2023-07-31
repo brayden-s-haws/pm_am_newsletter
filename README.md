@@ -5,7 +5,7 @@ Product management is a field that is rife with long-form and strategic content.
 
 If you are a product manager or are interested in product, you should [subscribe](https://pmnews.today).
 
-While I have fine-tuned it to deliver product management content, the prompts and sources could easily be tweaked to cover any topic or domain. Hopefully others take this code and create newsletters about whatever matters most to them.
+While I have targeted it to deliver product management content, the prompts and sources could easily be tweaked to cover any topic or domain. Hopefully others take this code and create newsletters about whatever matters most to them.
 
 ## How It Works
 The newsletter is built by grabbing content from various sources, filtering it and summarizing it with GPT, and then ultimately sending to subscribers using SendGrid. This diagram shows the various content flows in detail:
