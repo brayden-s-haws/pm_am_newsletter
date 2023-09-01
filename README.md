@@ -12,6 +12,8 @@ The newsletter is built by grabbing content from various sources, filtering it a
 
 ![CleanShot Freeform-2023-07-30](https://github.com/brayden-s-haws/pm_am_newsletter/assets/58832489/13f4a133-34af-4f94-80ba-ebde0f02977b)
 
+You can read more details on how the GPT prompts work [here](https://world.hey.com/haws/i-taught-a-robot-to-read-the-news-so-i-don-t-have-to-e2e4e2ae).
+
 ## Features
 This describes some of the key features of how the code works to ultimately generate an email.
 
@@ -55,7 +57,7 @@ The compute demands for this are almost nothing since it its just stringing toge
 
 ## Acknowledgements
 - Huge thanks to my wife Kasey! She did a ton to help with this, weighing in on design and being my first tester. She always supports me, no matter what weird thing I am currently chasing.
-- As always I owe [Ryan Jenson](https://www.linkedin.com/in/ryanwjenson/)big time. He helped with design and pointed me in the right direction on content. He also gave me a crash course on SEO and domain authority.
+- As always I owe [Ryan Jenson](https://www.linkedin.com/in/ryanwjenson/) big time. He helped with design and pointed me in the right direction on content. He also gave me a crash course on SEO and domain authority.
 
 ## License
 
