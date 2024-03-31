@@ -13,6 +13,8 @@ The newsletter is built by grabbing content from various sources, filtering it a
 ![CleanShot Freeform-2023-07-30](https://github.com/brayden-s-haws/pm_am_newsletter/assets/58832489/13f4a133-34af-4f94-80ba-ebde0f02977b)
 
 Here's a detailed view of the step that selects which artiles to include, summarizes them, and creates the newsletter intro:
+```
+mermaid
 graph TD
 A[Start] --> B[Scrape articles using scrape_articles]
 B --> C{For each article}
@@ -37,6 +39,7 @@ R --> S[Generate email intro using create_email_intro]
 S --> T[Print articles with their titles, URLs, and summaries]
 T --> U[Print email intro]
 U --> V[End]
+```
 
 You can read more details on how the GPT prompts work [here](https://world.hey.com/haws/i-taught-a-robot-to-read-the-news-so-i-don-t-have-to-e2e4e2ae).
 
