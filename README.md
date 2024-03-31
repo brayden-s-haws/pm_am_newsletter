@@ -12,6 +12,32 @@ The newsletter is built by grabbing content from various sources, filtering it a
 
 ![CleanShot Freeform-2023-07-30](https://github.com/brayden-s-haws/pm_am_newsletter/assets/58832489/13f4a133-34af-4f94-80ba-ebde0f02977b)
 
+Here's a detailed view of the step that selects which artiles to include, summarizes them, and creates the newsletter intro:
+graph TD
+A[Start] --> B[Scrape articles using scrape_articles]
+B --> C{For each article}
+C -->|Text| D[Filter articles by topics using filter_articles_topics]
+D -->|Relevant| E[Filter articles by relevance to product management using filter_articles_relevance]
+D -->|Irrelevant| F[Remove article]
+E -->|Product related| G[Keep article]
+E -->|Not product related| F
+G --> H[Create a list of unique URLs]
+H --> I[Remove duplicates using remove_duplicates]
+I --> J[Remove articles not in the deduped list]
+J --> K[Create a list of unique URLs after first dedupe]
+K --> L[Remove duplicates using secondary_dedupe]
+L --> M[Remove articles not in the second deduped list]
+M --> N{For each remaining article}
+N -->|Text| O[Generate summary using summary_generator]
+O --> P[Store summary in the article dictionary]
+N --> Q{More articles?}
+Q -->|Yes| N
+Q -->|No| R[Create intro text from article summaries]
+R --> S[Generate email intro using create_email_intro]
+S --> T[Print articles with their titles, URLs, and summaries]
+T --> U[Print email intro]
+U --> V[End]
+
 You can read more details on how the GPT prompts work [here](https://world.hey.com/haws/i-taught-a-robot-to-read-the-news-so-i-don-t-have-to-e2e4e2ae).
 
 ## Features
