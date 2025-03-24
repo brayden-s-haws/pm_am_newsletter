@@ -1,3 +1,7 @@
+# PM AM Newsletter
+
+#### Current status: complete
+
 ## Description
 Product management is a field that is rife with long-form and strategic content. But when I went looking for real-time news through the lens of product management, I couldn't find anything. It looked like this could be an area of opportunity for someone to fill. But there was a second problem, I wanted to be a consumer of this material, not a creator. So I decided to see if AI could use crowd-sourced content to create a newsletter that I would want to read every day. This experiment with AI has become [The PM A.M. Newsletter](https://pmnews.today). Each day this code delivers an email to my inbox with the latest news that product managers should care about in a Hackernews/Reddit aesthetic.
 
@@ -77,12 +81,6 @@ The compute demands for this are almost nothing since it its just stringing toge
   - [Reddit API](https://www.reddit.com/dev/api/)(praw):Used to scrape content from Reddit
   - [Carrd](https://carrd.co): Hosts the newsletter sign up page
 
-## Roadmap
-- Generalize all scrapers into a single class to make adding new sources easier
-- Add longform content to daily sends (waiting to see if this content makes sense/is in demand)
-- Implement fine tuning to increase the quality of both the articles included and the article summaries
-- Store outputs of the newsletter and feed into GPT to see if it can spot upcoming trends in product management
-
 ## Acknowledgements
 - Huge thanks to my wife Kasey! She did a ton to help with this, weighing in on design and being my first tester. She always supports me, no matter what weird thing I am currently chasing.
 - As always I owe [Ryan Jenson](https://www.linkedin.com/in/ryanwjenson/) big time. He helped with design and pointed me in the right direction on content. He also gave me a crash course on SEO and domain authority.
@@ -90,3 +88,9 @@ The compute demands for this are almost nothing since it its just stringing toge
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
+
+___
+
+### Personal Progress ###
+* What I learned: Various ways to acquire and shape data including scraping and APIs. How to use the SendGrid API to manage contacts and send emails.I also worked heavily with the OpenAI API and figured out how to build a multi-step process for working with an LLM to refine content.
+* What I wish I had done differently: Spent more time on logging and tests. I mostly relied on print statements when there were errors and did not have programtic fallbacks for when there were issues. I also should have refactored many peices of this project to be more generalized. I built multiple scrapers instead of figuring out a way to build a single scraper that would work for many sources.
