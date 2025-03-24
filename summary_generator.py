@@ -127,40 +127,6 @@ def process_articles():
                 time.sleep(wait_time)
         print("Failed to generate response after several retries")
         return None
-
-    def secondary_dedupe(article_set):
-        """ Many sources may cover the same story in a given day. When this happens we only want to include the story one time using one source. The URLs for all scraped articles are sent to GPT
-        and using the keywords in the URL it determines which URLs represent unique stories. In cases where there are multiple sources for a story it selects what it believes to be just the most
-        reputable source and returns that URL.
-        :param str article_set: All the URLs for the scraped articles are combined into a string so they can be sent to GPT for evaluation
-        :return: list
-        """
-        for attempt in range(5):
-            try:
-                # In this case I used gpt-3.5-turbo-16k because I needed to send all URLs at once so the needed token count was much higher. But this model is twice as expensive so where possible I
-                # used gpt-3.5-turbo
-                response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo-16k",
-                    messages=[
-                        {"role": "system",
-                         "content": "You will receive a set of URLs. Analyze the keywords within each URL to identify cases where a company appears in more than one URL. If multiple URLs seem to discuss the same company based on shared keywords (for instance, if 3 URLs contain the terms 'Microsoft' or 'Apple'), choose only one URL, giving preference to the most reputable source based on general knowledge about the source's reputation. Do the same for cases where a similar topic (such as self-driving cars) is covered by more than one URL. After your analysis, provide a comma-separated list of unique URLs that correspond to distinct topics. Your response should only be the list of URLs, without any additional text, line breaks, or '\n' characters."},
-                        {"role": "user",
-                         "content": article_set}
-                    ],
-                    max_tokens=10000,
-                    temperature=.2,
-                )
-                deduped_urls = response["choices"][0]["message"]["content"].replace('\n', '').strip()  # GPT only returns things in string format. So though the prompt asks for a column
-                # separated list, the list actually comes back as a string that you need to parse. On occasion GPT was appending a \n to each URL which caused the subsequent parsing and matching to
-                # break. In the case that happens, this strips out the \n
-
-                return deduped_urls
-            except openai.error.ServiceUnavailableError:
-                wait_time = (2 ** attempt) + (random.randint(0, 1000) / 1000)
-                print(f"Server error, retrying in {wait_time} seconds")
-                time.sleep(wait_time)
-        print("Failed to generate response after several retries")
-        return None
   
     def summary_generator(article_text):
         """ This sends the text of each article to GPT to have a summary generated
@@ -242,15 +208,6 @@ def process_articles():
     deduped_articles = [url.strip() for url in remove_duplicates(str(url_set)).split(',')]
 
     # Remove articles that are not in deduped list
-    for key in list(scraped_articles.keys()):
-        if key not in deduped_articles:
-            del scraped_articles[key]
-    
-    # Create a list of unique URLs after first dedupe
-    url_set = [f'{scraped_articles[key]["url"]},' for key in scraped_articles]
-    deduped_articles = [url.strip() for url in secondary_dedupe(str(url_set)).split(',')]
-
-    # Remove articles that are not in the second deduped list
     for key in list(scraped_articles.keys()):
         if key not in deduped_articles:
             del scraped_articles[key]
