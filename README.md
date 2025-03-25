@@ -28,8 +28,7 @@ E -->|Product related| G[Keep article]
 E -->|Not product related| F
 G --> H[Create a list of unique URLs]
 H --> I[Remove duplicates using remove_duplicates]
-I --> J[Remove articles not in the deduped list]
-J --> K[Create a list of unique URLs after dedupe]
+I --> K[Create a list of unique URLs after dedupe]
 K --> N{For each remaining article}
 N -->|Text| O[Generate summary using summary_generator]
 O --> P[Store summary in the article dictionary]
