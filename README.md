@@ -2,6 +2,14 @@
 
 #### Current status: Complete
 
+___
+
+### Personal Progress ###
+* What I learned: Various ways to acquire and shape data including scraping and APIs. How to use the SendGrid API to manage contacts and send emails.I also worked heavily with the OpenAI API and figured out how to build a multi-step process for working with an LLM to refine content.
+* What I wish I had done differently: Spent more time on logging and tests. I mostly relied on print statements when there were errors and did not have programtic fallbacks for when there were issues. I also should have refactored many peices of this project to be more generalized. I built multiple scrapers instead of figuring out a way to build a single scraper that would work for many sources.
+* What I am most proud of: [summary_generator.py](https://github.com/brayden-s-haws/pm_am_newsletter/blob/main/summary_generator.py). LLMS can be extremely fickle, especially if you overload them with context. I was really proud of how I was able to chain multiple API calls together to get a consistent, quality output. I also thought it was really clever to use the LLM's knowlede of Domain Reputation as a proxy for a very expensive domain reputation tool. I also had a lot of fun combining prompt engineering with more traditional parsing to ensure LLM outputs aligned with the parameters of the functions in the chain.
+* What I want to learn next: I want to spend more time on Class and Sub-Classes. There were lots of opportunities to use them in this project between the LLM API calls and the scrapers. I would like to better understand how to use these to make my code more generalizale and extensible.
+
 ## Description
 Product management is a field that is rife with long-form and strategic content. But when I went looking for real-time news through the lens of product management, I couldn't find anything. It looked like this could be an area of opportunity for someone to fill. But there was a second problem, I wanted to be a consumer of this material, not a creator. So I decided to see if AI could use crowd-sourced content to create a newsletter that I would want to read every day. This experiment with AI has become [The PM A.M. Newsletter](https://pmnews.today). Each day this code delivers an email to my inbox with the latest news that product managers should care about in a Hackernews/Reddit aesthetic.
 
@@ -66,7 +74,7 @@ This describes the role of each file in creating the newsletter.
 Note: each file that grabs content contains a variable that allows you to set the window of time for which to scrape content. By default they are all set to the last 24 hours.
 
 ## Setup
-The compute demands for this are almost nothing since it its just stringing together APIs. I deployed this on a free Flask server. But it could be deployed on almost any machine running python and Flask. I wrote it all in plain python but switched to Flask for creating endpoints for testing and the recurring run. Needed packages can be installed using this command:
+Needed packages can be installed using this command:
   <pre><code>pip install flask openai pytz google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client bs4 newspaper sendgrid praw </code></pre>
 
   Key Packages/Tools:
@@ -85,11 +93,3 @@ The compute demands for this are almost nothing since it its just stringing toge
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
-
-___
-
-### Personal Progress ###
-* What I learned: Various ways to acquire and shape data including scraping and APIs. How to use the SendGrid API to manage contacts and send emails.I also worked heavily with the OpenAI API and figured out how to build a multi-step process for working with an LLM to refine content.
-* What I wish I had done differently: Spent more time on logging and tests. I mostly relied on print statements when there were errors and did not have programtic fallbacks for when there were issues. I also should have refactored many peices of this project to be more generalized. I built multiple scrapers instead of figuring out a way to build a single scraper that would work for many sources.
-* What I am most proud of: [summary_generator.py](https://github.com/brayden-s-haws/pm_am_newsletter/blob/main/summary_generator.py). LLMS can be extremely fickle, especially if you overload them with context. I was really proud of how I was able to chain multiple API calls together to get a consistent, quality output. I also thought it was really clever to use the LLM's knowlede of Domain Reputation as a proxy for a very expensive domain reputation tool. I also had a lot of fun combining prompt engineering with more traditional parsing to ensure LLM outputs aligned with the parameters of the functions in the chain.
-* What I want to learn next: I want to spend more time on Class and Sub-Classes. There were lots of opportunities to use them in this project between the LLM API calls and the scrapers. I would like to better understand how to use these to make my code more generalizale and extensible.
