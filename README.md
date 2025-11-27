@@ -15,7 +15,6 @@ Product management is a field that is rife with long-form and strategic content.
 
 ![PM AM Newsletter](https://github.com/brayden-s-haws/pm_am_newsletter/assets/58832489/7e099a89-0ff5-4986-aad8-1f235e3f76df)
 
-If you are a product manager or are interested in product, you should [subscribe](https://pmnews.today).
 
 While I have targeted it to deliver product management content, the prompts and sources could easily be tweaked to cover any topic or domain. Hopefully others take this code and create newsletters about whatever matters most to them.
 
